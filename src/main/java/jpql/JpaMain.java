@@ -14,27 +14,31 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Team team = new Team();
-            team.setName("teamA");
-            em.persist(team);
-
             Member member = new Member();
             member.setUsername("minwoo");
-            member.setAge(33);
-            member.changeTeam(team);
+            member.setType(MemberType.ADMIN);
             em.persist(member);
+
+            Member member2 = new Member();
+            member2.setUsername("minwoo2");
+            member2.setType(MemberType.ADMIN);
+            em.persist(member2);
 
             em.flush();
             em.clear();
 
+            String query = "SELECT group_concat(m.username) FROM Member m";
+            List<String> nameList = em.createQuery(query, String.class).getResultList();
+
+            for (String s : nameList) {
+                System.out.println("s = " + s);
+            }
+
             // List<Member> resultList = em.createQuery("SELECT m FROM Member m LEFT JOIN m.team t ON t.name = 'teamA'", Member.class).getResultList();
             // List<Member> resultList = em.createQuery("SELECT m FROM Member m INNER JOIN m.team t", Member.class).getResultList();
 
-
             // List<MemberDTO> resultList = em.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class)
             //                                .setFirstResult(0).setMaxResults(3).getResultList(); // 구체적인 쿼리는 dbms에 맞게 생성되어 나감
-
-
 
             // Object singleObject = em.createQuery("select m from Member m").getSingleResult(); > 없거나 2개 이상이면 Exception 발생
 
