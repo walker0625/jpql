@@ -17,6 +17,7 @@
             <property name="hibernate.use_sql_comments" value="true"/>
             <!--table drop 등으로 위험하므로 개발(local) 외에서는 create, create-drop, update 절대로 써서는 안된다!!!-->
             <property name="hibernate.hbm2ddl.auto" value="create" /> <!--운영은 none, validate-->
+            <property name="hibernate.default_batch_fetch_size" value="100" />
 
         </properties>
     </persistence-unit>
